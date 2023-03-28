@@ -1,0 +1,1 @@
+web: python scheduler.py & gunicorn visualization:server
