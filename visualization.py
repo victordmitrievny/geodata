@@ -8,9 +8,8 @@ from dash import html
 from dash import Input, Output
 from sqlalchemy import create_engine
 
-
 #Import data from the MySQL server to the DataFrame
-engine = create_engine('mysql+pymysql://root:@localhost/geodata')
+engine = create_engine('mysql+pymysql://baebbc1dedd03e:18882be2@us-cdbr-east-06.cleardb.net/heroku_50f453d91482063') #mysql+pymysql://root:@localhost/geodata' (on local server)
 df = pd.read_sql_table('geodata_iso', engine)
 
 
@@ -20,8 +19,8 @@ df = pd.read_sql_table('geodata_iso', engine)
 columns_fixed = []
 for i in df.columns:
   columns_fixed.append(i)
-labels = ['Category A', 'Category B', 'Category C']
-values = [50, 25, 25]
+labels = ['n/a']
+values = [1]
 
 #------------------------------------------Initiation and Layout
 vis = dash.Dash()
@@ -30,20 +29,20 @@ html.Br()
 
 vis.layout = html.Div([
   
-  html.H1('Geo Data', style={'textAlign': 'center'}),
+  html.H1('Geodata', style={'textAlign': 'center'}),
 
   html.Br(),
 
   #Dropdown
+    html.Div([
+              html.P('Chart Map by:', style = {'margin-right':'10px', 'font-weight':'bold'}),
+              dcc.Dropdown(['Population', 'Density', 'Area','Water %', 'Top Traded Currency', 'GDP Total', 'GDP Per Capita', 'HDI', 'Gini', 
+                    'Christianity', 'Islam', 'Hinduism', 'Buddhism', 'Judaism'], 
+                    id='dropdown', value = 'Population',
+                    style={'width': '200px'})
+              ],
+              style={'margin-left':'70%', 'margin-bottom':'5px', 'display': 'flex', 'align-items': 'center'}),
 
-  html.Div([
-    dcc.Dropdown(['Population', 'Density', 'Area','Water %', 'Top Traded Currency', 'GDP Total', 'GDP Per Capita', 'HDI', 'Gini', 
-                  'Christianity', 'Islam', 'Hinduism', 'Buddhism', 'Judaism'], 
-                  id='dropdown', value = 'Population',
-                  style={'width': '1000px'}
-                  )
-             ],
-             style={'margin-left':'20%', 'margin-bottom':'30px'}),
   
   #Div for single country info + Map
   html.Div([
@@ -57,10 +56,10 @@ vis.layout = html.Div([
                       }
                ),
 
-        html.H3('-', id = 'p_country_name', 
+        html.P('No Country Selected', id = 'p_country_name', 
                 style={'textAlign': 'center',
-                       'font-weight': 'bold',
                         'margin-top': 20,
+                        'font-style':'italic'
                       }
                ),    
        
@@ -141,25 +140,28 @@ vis.layout = html.Div([
         ],
           style = {'display': 'flex'}),   
 
+
         #Div for Religion container and graph
         html.Div([
           dcc.Graph(
                       id='pie_chart',
                       figure={
-                              'data': [pxgo.Pie(values = values, 
-                                                labels = labels,
-                                                textposition='inside')],
+                              'data': [pxgo.Pie(
+                                              labels = ['                '],
+                                              values = [1],
+                                              marker=dict(colors = ['blue']),
+                                              textposition='inside')],
                               'layout': pxgo.Layout(title = { 'text': '<b>Religion:</b>', 
                                                             'font': {
                                                                       'family': 'Open Sans',
                                                                       'size': 16,   
                                                                       'color': 'black'
                                                                     },
-                                                            'y': 0.95
-                                                             },
+                                                            'y': 0.92
+                                                            },
                                                     width = 320,
-                                                    height = 320,
-                                                    margin = dict(t=0, b=70),
+                                                    height = 230,
+                                                    margin = dict(t=10, b=0),
                                                     legend = {
                                                               'x': 1.0,
                                                               'y': 0.5
@@ -173,7 +175,6 @@ vis.layout = html.Div([
                   ],
         style = {'height':'230px', 'border': '2px solid black'}),
 
-        html.Div(style = {'height':'100px'})
       
       ],
         style = {
@@ -208,21 +209,22 @@ vis.layout = html.Div([
   
   ),
 
-
   html.Br(),
 
   #Bar Chart
   dcc.Graph(id = 'barchart',       
-            #style= {'border':'2px solid black'}
+            style= {'border':'2px solid black', 'margin':'0px 0px'}
   ),
+
+  html.H3('Datatable', style={'textAlign': 'center'}),
    
   #Datatable
   dash_table.DataTable(
     data=df.to_dict('records'),
     columns = [{"name": i, "id": i} for i in df.columns],
-    sort_action = "native",
-    virtualization = True,
-    page_size = 250,    
+    sort_action='native',
+    page_size = 250,   
+    virtualization = True, 
     fixed_rows = {'headers': True, 'data': columns_fixed},
     fixed_columns = {'headers': True, 'data': 1},
     style_header={
@@ -234,7 +236,7 @@ vis.layout = html.Div([
             'maxWidth': '150px',
             'textOverflow': 'ellipsis'
         },
-    style_table={'minWidth': '100%'},
+    style_table={"height": "610px", "maxHeight": "610px", "minWidth": '100%'},
     
     #Custom column width
     style_data_conditional=[
@@ -252,8 +254,7 @@ vis.layout = html.Div([
             {'if': {'column_id': 'ISO'}, 'minWidth': '50px'},
             {'if': {'column_id': 'ISO3'}, 'minWidth': '50px'},
             {'if': {'column_id': 'Religion'}, 'minWidth': '1000px'},
-            ]
-
+            ],
   ),
 
 ])
@@ -324,21 +325,23 @@ def update_output(input_value):
                                                                     'size': 16,   
                                                                     'color': 'black'
                                                                   },
-                                                            'y': 0.95
+                                                            'y': 0.92
                                                             },
                                                     width = 320,
-                                                    height = 320,
-                                                    margin = dict(t=0, b=70),
+                                                    height = 230,
+                                                    margin = dict(t=10, b=0),
                                                     legend = {
                                                               'x': 1.0,
                                                               'y': 0.5
                                                              },
                                                     paper_bgcolor='rgba(255,255,255,0)'
                                                     )}
-      
 
-  return(country_name, capital, government, currency, population, 
+
+  return(html.H3(country_name, style={'font-style':'normal'}),  
+         capital, government, currency, population, 
          density, area, water, gdp, gdp_pc,hdi, gini, religion_pie_chart)
+
 
 
 
@@ -371,8 +374,7 @@ def update_output_value(input_value):
                       scope = 'world',
                       featureidkey = 'ISO3',
                       )
-
-
+  
   map1.update_layout(margin={"r":0,"t":27,"l":0,"b":0}),
   if input_value == "Density":
     map1.update_layout(coloraxis=dict(cmin=0, cmax=800))
@@ -382,6 +384,7 @@ def update_output_value(input_value):
   df_sorted = df.sort_values(by = input_value, ascending = False)
   dfbarchart = df_sorted.head(20)
   barchart = px.bar(dfbarchart, x = 'Country Name', y = input_value)
+  barchart.update_layout(xaxis_title=None)
 
   return map1, barchart
 
@@ -398,7 +401,7 @@ server = vis.server
 
 
 #Code for making SQL datatable
-# CREATE TABLE geodata_iso (
+# CREATE TABLE geodata (
 #     country_name VARCHAR(500),
 #     government VARCHAR(500),
 #     population BIGINT(11),

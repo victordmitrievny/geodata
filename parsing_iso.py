@@ -58,6 +58,7 @@ df = pd.merge(df, df_dataiso, on='ISO')
 
 
 
+
 #Reorder columns:
 df = df[["Country Name", 
         "Capital", 
@@ -163,11 +164,19 @@ df["HDI"] = df["HDI"].astype(float)
 df["Gini"] = df["Gini"].astype(float)
 #-------------------------------------------------------------------------------------------------------------------------
 
+#Additional data update
+df.loc[2, "Country Name"] = "United States"
+df.loc[15, "Country Name"] = "Congo"
+df.loc[16, "Country Name"] = "Iran"
+df.loc[36, "Christianity"] = "53"
+
+#print(df)
+
+
 #Write back into the SQL server into a new datatable
-engine = create_engine('mysql+pymysql://root:@localhost/geodata')
+engine = create_engine('mysql+pymysql://baebbc1dedd03e:18882be2@us-cdbr-east-06.cleardb.net/heroku_50f453d91482063')
 df.to_sql('geodata_iso', con=engine, if_exists='replace', index=False)
 
 
-
-
+print('Parsing ISO Complete')
 

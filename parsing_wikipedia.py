@@ -269,7 +269,7 @@ for i in country_list:
 df = pd.DataFrame(data).T
 
 # Connect to MySQL using SQLAlchemy and Write DataFrame to MySQL
-engine = create_engine('mysql+pymysql://root:@localhost/geodata')
+engine = create_engine('mysql+pymysql://baebbc1dedd03e:18882be2@us-cdbr-east-06.cleardb.net/heroku_50f453d91482063')
 df.to_sql('geodata', con=engine, if_exists='replace', index=False)
 
 
