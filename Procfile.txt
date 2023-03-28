@@ -1,1 +1,1 @@
-web: python3 scheduler.py && gunicorn visualization:server
+web: python scheduler.py & gunicorn visualization:server
