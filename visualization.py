@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objs as pxgo
+import plotly.graph_objects as pxgo
 import dash
 from dash import dash_table
 from dash import dcc
@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 #Import data from the MySQL server to the DataFrame
 engine = create_engine('mysql+pymysql://baebbc1dedd03e:18882be2@us-cdbr-east-06.cleardb.net/heroku_50f453d91482063') #mysql+pymysql://root:@localhost/geodata' (on local server)
 df = pd.read_sql_table('geodata_iso', engine)
-
+ds = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv')
 
 #----------------------------------------------Visualization---------------------------------
 
@@ -22,27 +22,34 @@ for i in df.columns:
 labels = ['n/a']
 values = [1]
 
-#------------------------------------------Initiation and Layout
-vis = dash.Dash()
 
-html.Br()
+#------------------------------------------Initiation and Layout
+vis = dash.Dash(__name__)
 
 vis.layout = html.Div([
   
-  html.H1('Geodata', style={'textAlign': 'center'}),
-
-  html.Br(),
+  html.Div([
+    html.Img(src='/assets/logo.png', style={'height': '90px', 'width': '300px'}), #rgba(102,252,241,255)
+    dcc.Link('Methodology', href='https://docs.google.com/document/d/1mtUqbVAg3osFj2a1Fv1QR2rn2oNnjwu60KnVMMutFnE/edit?usp=sharing',
+            target='_blank', 
+            style = {'color':'rgba(102,252,241,255)',
+                     'margin-left':'70%',
+                     'margin-bottom':'60px', 
+                     'fontFamily': 'sans-serif',
+                     'font-size': '13px'}),
+         ],
+    style = {'display': 'flex', 'align-items': 'center'}),
 
   #Dropdown
-    html.Div([
+  html.Div([
               html.P('Chart Map by:', style = {'margin-right':'10px', 'font-weight':'bold'}),
               dcc.Dropdown(['Population', 'Density', 'Area','Water %', 'Top Traded Currency', 'GDP Total', 'GDP Per Capita', 'HDI', 'Gini', 
-                    'Christianity', 'Islam', 'Hinduism', 'Buddhism', 'Judaism'], 
+                            'Christianity', 'Islam', 'Hinduism', 'Buddhism', 'Judaism'], 
                     id='dropdown', value = 'Population',
-                    style={'width': '200px'})
+                    style={'width': '200px','backgroundColor': '#253346',
+                           'borderRadius': '10px', 'color':'black', 'fontFamily': 'sans-serif'})
               ],
               style={'margin-left':'70%', 'margin-bottom':'5px', 'display': 'flex', 'align-items': 'center'}),
-
   
   #Div for single country info + Map
   html.Div([
@@ -65,97 +72,97 @@ vis.layout = html.Div([
        
         #Div for Capital
         html.Div([
-          html.P('Capital:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 4px'}),
+          html.P('Capital:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 16px'}),
           html.P(id = 'p_capital', style = {'margin': '5px 15px 5px 99px'}),
         ],
           style = {'display': 'flex'}),
 
         #Div for Head of Governmnent
         html.Div([
-          html.P('Head of Government:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px','min-width': '150px'}),
-          html.P(id = 'p_government', style = {'margin': '5px 15px 5px 3px'}),
+          html.P('Government:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px','min-width': '150px'}),
+          html.P(id = 'p_government', style = {'margin': '5px 15px 5px 8px'}),
         ],
           style = {'display': 'flex'}),
         
         #Div for Currency
         html.Div([
-          html.P('Currency:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_currency', style = {'margin': '5px 15px 5px 83px'}),
+          html.P('Currency:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_currency', style = {'margin': '5px 15px 5px 82px'}),
         ],
           style = {'display': 'flex'}),
 
         #Div for Population
         html.Div([
-          html.P('Population:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_population', style = {'margin': '5px 15px 5px 73px'}),
+          html.P('Population:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_population', style = {'margin': '5px 15px 5px 70px'}),
         ],
           style = {'display': 'flex'}),          
 
         #Div for Density
         html.Div([
-          html.P('Density:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_density', style = {'margin': '5px 15px 5px 96px'}),
+          html.P('Density:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_density', style = {'margin': '5px 15px 5px 95px'}),
         ],
           style = {'display': 'flex'}),    
 
         #Div for Area
         html.Div([
-          html.P('Area:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_area', style = {'margin': '5px 15px 5px 113px'}),
+          html.P('Area:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_area', style = {'margin': '5px 15px 5px 117px'}),
         ],
           style = {'display': 'flex'}),   
 
         #Div for Water
         html.Div([
-          html.P('Water %:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_water', style = {'margin': '5px 15px 5px 83px'}),
+          html.P('Water %:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_water', style = {'margin': '5px 15px 5px 89px'}),
         ],
           style = {'display': 'flex'}),   
 
         #Div for GDP Total
         html.Div([
-          html.P('GDP Total:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_gdp', style = {'margin': '5px 15px 5px 73px'}),
+          html.P('GDP Total:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_gdp', style = {'margin': '5px 15px 5px 76px'}),
         ],
           style = {'display': 'flex'}),   
 
         #Div for GDP Per Capita
         html.Div([
-          html.P('GDP Per Capita:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
+          html.P('GDP Per Capita:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
           html.P(id = 'p_gdp_pc', style = {'margin': '5px 15px 5px 33px'}),
         ],
           style = {'display': 'flex'}),   
 
         #Div for HDI
         html.Div([
-          html.P('HDI:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_hdi', style = {'margin': '5px 15px 5px 114px'}),
+          html.P('HDI:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_hdi', style = {'margin': '5px 15px 5px 123px'}),
         ],
           style = {'display': 'flex'}),   
 
         #Div for Gini
         html.Div([
-          html.P('Gini:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 5px'}),
-          html.P(id = 'p_gini', style = {'margin': '5px 15px 5px 113px'}),
+          html.P('Gini:', style = {'font-weight': 'bold', 'margin': '5px 10px 5px 15px'}),
+          html.P(id = 'p_gini', style = {'margin': '5px 15px 5px 120px'}),
         ],
           style = {'display': 'flex'}),   
-
 
         #Div for Religion container and graph
         html.Div([
           dcc.Graph(
                       id='pie_chart',
+                      config={ "displayModeBar": False},
                       figure={
                               'data': [pxgo.Pie(
                                               labels = ['                '],
                                               values = [1],
-                                              marker=dict(colors = ['blue']),
+                                              marker=dict(colors = ['#D1FFE4']),
                                               textposition='inside')],
                               'layout': pxgo.Layout(title = { 'text': '<b>Religion:</b>', 
                                                             'font': {
-                                                                      'family': 'Open Sans',
+                                                                      'family': 'sans-serif',
                                                                       'size': 16,   
-                                                                      'color': 'black'
+                                                                      'color': 'white'
                                                                     },
                                                             'y': 0.92
                                                             },
@@ -173,16 +180,21 @@ vis.layout = html.Div([
                     ),
 
                   ],
-        style = {'height':'230px', 'border': '2px solid black'}),
+        style = {'height':'230px', 'border': '1px solid transparent', 'border-top-color': 'white'}),
 
       
       ],
-        style = {
+      style = {
               'border': '2px solid black',
               'height': '500px',
               'width': '25%',
-              'overflowY': 'scroll'
+              'overflowY': 'scroll',
+              'borderRadius': '15px',
+              'backgroundColor': 'rgba(37,51,70,255)',
+              'scrollbar-color': 'red blue',
+              'margin':'0'
                 },
+              
                 
             ),
     
@@ -213,7 +225,7 @@ vis.layout = html.Div([
 
   #Bar Chart
   dcc.Graph(id = 'barchart',       
-            style= {'border':'2px solid black', 'margin':'0px 0px'}
+            style= {'border':'3px solid black', 'margin':'0px 0px', 'borderRadius': '15px'}
   ),
 
   html.H3('Datatable', style={'textAlign': 'center'}),
@@ -228,38 +240,48 @@ vis.layout = html.Div([
     fixed_rows = {'headers': True, 'data': columns_fixed},
     fixed_columns = {'headers': True, 'data': 1},
     style_header={
-            'backgroundColor': 'rgb(230, 230, 230)',
+            'backgroundColor': '#18212E',
             'fontWeight': 'bold'
         },
     style_cell={
             'minWidth': '150px',
             'maxWidth': '150px',
-            'textOverflow': 'ellipsis'
+            'textOverflow': 'ellipsis',
+            'fontFamily': 'sans-serif'
         },
-    style_table={"height": "610px", "maxHeight": "610px", "minWidth": '100%'},
-    
+    style_table={"height": "610px", "maxHeight": "610px", "minWidth": '100%', 'backgroundColor': '#253346'},
     #Custom column width
     style_data_conditional=[
-            {'if': {'column_id': 'Country Name'}, 'minWidth': '300px', 'backgroundColor': 'rgb(245, 245, 245)'},
-            {'if': {'column_id': 'Capital'}, 'minWidth': '300px'},
-            {'if': {'column_id': 'Government'}, 'minWidth': '300px'},
-            {'if': {'column_id': 'Population'}, 'minWidth': '150px'},
-            {'if': {'column_id': 'Density'}, 'minWidth': '150px'},
-            {'if': {'column_id': 'Area'}, 'minWidth': '150px'},
-            {'if': {'column_id': 'Water'}, 'minWidth': '75px'},
-            {'if': {'column_id': 'HDI'}, 'minWidth': '100px'},
-            {'if': {'column_id': 'Gini'}, 'minWidth': '100px'},
-            {'if': {'column_id': 'Currency'}, 'minWidth': '250px'},
-            {'if': {'column_id': 'Top Traded Currency'}, 'minWidth': '150px'},
-            {'if': {'column_id': 'ISO'}, 'minWidth': '50px'},
-            {'if': {'column_id': 'ISO3'}, 'minWidth': '50px'},
-            {'if': {'column_id': 'Religion'}, 'minWidth': '1000px'},
+            {'if': {'column_id': 'Country Name'}, 'minWidth': '300px', 'backgroundColor': '#18212E', 'fontWeight': 'bold'},
+            {'if': {'column_id': 'Capital'}, 'minWidth': '300px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Government'}, 'minWidth': '300px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Population'}, 'minWidth': '150px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Density'}, 'minWidth': '150px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Area'}, 'minWidth': '150px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Water %'}, 'minWidth': '75px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'GDP Total'}, 'minWidth': '175px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'GDP Per Capita'}, 'minWidth': '150px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'HDI'}, 'minWidth': '100px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Gini'}, 'minWidth': '100px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Currency'}, 'minWidth': '280px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Top Traded Currency'}, 'minWidth': '150px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'ISO'}, 'minWidth': '50px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'ISO3'}, 'minWidth': '80px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Christianity'}, 'minWidth': '120px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Islam'}, 'minWidth': '120px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Hinduism'}, 'minWidth': '120px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Buddhism'}, 'minWidth': '120px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Judaism'}, 'minWidth': '120px', 'backgroundColor': '#253346'},
+            {'if': {'column_id': 'Religion'}, 'minWidth': '1000px', 'backgroundColor': '#253346'},
             ],
   ),
 
-])
+],
+style = {'fontFamily': 'sans-serif', 'backgroundColor': '#0B0C10', 'color': 'white'} #'color': 'rgba(227,228,230,255)'
 
-#----------------------------Callback for clicking individual country to get data------------------------
+)
+
+#------------------------------Callback for clicking individual country to get data------------------------
 
 @vis.callback(
     Output('p_country_name', 'children'),
@@ -317,11 +339,13 @@ def update_output(input_value):
                                                         'Judaism',
                                                         'Other'
                                                         ],
-                                              marker=dict(colors = ['blue', 'red', 'green', 'purple','grey','orange']),
+                                              marker=dict(colors = ['#65FCF2', '#50CBE6', '#50E6B5', 
+                                                                    '#59B9FE','#CFD0FF','#D1FFE4'],
+                                                          line=dict(color='white', width=2)),
                                               textposition = 'inside')],
                             'layout': pxgo.Layout(title = { 'text': '<b>Religion:</b>', 
                                                             'font': {
-                                                                    'family': 'Open Sans',
+                                                                    'family': 'sans-serif',
                                                                     'size': 16,   
                                                                     'color': 'black'
                                                                   },
@@ -334,7 +358,9 @@ def update_output(input_value):
                                                               'x': 1.0,
                                                               'y': 0.5
                                                              },
-                                                    paper_bgcolor='rgba(255,255,255,0)'
+                                                    paper_bgcolor='rgba(255,255,255,0)',
+                                                    font_color='white',
+                                                    title_font_color='white'
                                                     )}
 
 
@@ -345,7 +371,7 @@ def update_output(input_value):
 
 
 
-#----------------------------Callback for sorting barchart and map
+#-----------------------------------------Callback for sorting barchart and map-----------------
 @vis.callback(
     Output('map', 'figure'),
     Output('barchart', 'figure'),
@@ -353,6 +379,7 @@ def update_output(input_value):
 )
 
 def update_output_value(input_value):
+  #------------Map-----------
 
   #If religion is selected, convert religion columns into floats and add zero where no data is available 
   if input_value in ['Christianity', 'Islam', 'Judaism', 'Hinduism', 'Buddhism']:
@@ -361,30 +388,74 @@ def update_output_value(input_value):
         df.loc[i,input_value] = 0
     df[input_value] = df[input_value].astype(float)
 
+  #Colors for parameters
+  color_palette =    {#Density is in a separate "if"
+                      'Population':          [[0, 'rgb(255,255,255)'],[0.50, 'rgba(102,252,241,255)'],[1, 'rgb(5, 250, 234)']],
+                      'Area':                [[0, '#ffffff'],[1, '#CFD0FF']],
+                      'Water %':             [[0, '#ffffff'],[1, '#59B9FE']],
+                      'Top Traded Currency': [[0, '#ffffff'],[1, '#50E6B5']],
+                      'GDP Total':           [[0, '#ffffff'],[1, '#D1FFE4']],
+                      'GDP Per Capita':      [[0, '#ffffff'],[1, '#65FCF2']],
+                      'HDI':                 [[0, '#ffffff'],[1, '#50CBE6']],
+                      'Gini':                [[0, '#ffffff'],[1, '#CFD0FF']],
+                      'Christianity':        [[0, '#ffffff'],[1, '#65FCF2']],
+                      'Islam':               [[0, '#ffffff'],[1, '#50CBE6']],
+                      'Judaism':             [[0, '#ffffff'],[1, '#CFD0FF']],
+                      'Hinduism':            [[0, '#ffffff'],[1, '#59B9FE']],
+                      'Buddhism':            [[0, '#ffffff'],[1, '#50E6B5']]}
+
   #Map 
-  map1 = px.choropleth(df,
+  map1 = px.choropleth(
+                      df,
                       locations = 'ISO3',
                       color = input_value,
-                      color_continuous_scale=[
-                        [0, 'rgb(255,255,255)'],
-                        [0.60, 'rgb(255,0,0)'],
-                        [1, 'rgb(255,0,0)']
-                        #Green[1, 'rgb(7,255,73)']
-                        ],
-                      scope = 'world',
-                      featureidkey = 'ISO3',
+                      color_continuous_scale=[[0, 'rgb(255,255,255)'],[0.50, 'rgba(102,252,241,255)'],[1, 'rgb(5, 250, 234)']],
                       )
   
-  map1.update_layout(margin={"r":0,"t":27,"l":0,"b":0}),
   if input_value == "Density":
+    map1 = px.choropleth(
+                    df,
+                    locations = 'ISO3',
+                    color = input_value,
+                    color_continuous_scale=[[0, 'rgb(255,255,255)'],[0.50, 'rgba(102,252,241,255)'],[1, 'rgb(5, 250, 234)']],
+                    )
     map1.update_layout(coloraxis=dict(cmin=0, cmax=800))
-  
 
-  #Bar Chart 
+
+  if input_value in ['Population','Area','Water %','Top Traded Currency',
+                     'GDP Total', 'GDP Per Capita','HDI','Gini',
+                     'Christianity', 'Islam', 'Judaism', 'Hinduism', 'Buddhism']:
+      map1 = px.choropleth(df, locations = 'ISO3', color = input_value,
+                      color_continuous_scale = color_palette[input_value])
+
+  #Update layout
+  map1.update_layout(
+    margin={"r":0,"t":27,"l":0,"b":0},
+    plot_bgcolor="rgba(37,51,70,255)",
+    paper_bgcolor="rgba(37,51,70,255)",
+    geo_bgcolor="rgba(37,51,70,255)",
+    coloraxis_colorbar=dict(
+      title_font_color="white",
+      tickfont_color="white")
+  )
+
+
+
+  #------Bar Chart-------
   df_sorted = df.sort_values(by = input_value, ascending = False)
   dfbarchart = df_sorted.head(20)
   barchart = px.bar(dfbarchart, x = 'Country Name', y = input_value)
-  barchart.update_layout(xaxis_title=None)
+  barchart.update_layout(xaxis_title=None,
+                         plot_bgcolor="rgba(37,51,70,255)",
+                         paper_bgcolor="rgba(37,51,70,255)",
+                         font_color='white',
+                         xaxis=dict(tickfont=dict(family='sans-serif', size=14)),
+                         yaxis=dict(tickfont=dict(family='sans-serif'),
+                                    title_font=dict(family='sans-serif', size=18))                                 
+                         )
+
+  barchart.update_traces(marker={'color': 'rgba(8,250,234,255)'}) #'color': 'rgba(102,252,241,255)'
+
 
   return map1, barchart
 

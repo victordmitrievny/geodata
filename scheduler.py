@@ -12,7 +12,7 @@ def run_programs():
     subprocess.Popen(['python3', 'visualization.py'])
 
 run_programs()
-schedule.every(30).seconds.do(run_programs)
+schedule.every(24).hours.do(run_programs)
 
 while True:
     schedule.run_pending()

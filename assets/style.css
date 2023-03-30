@@ -1,0 +1,41 @@
+html {
+    background-color: #0B0C10;
+}
+
+.main-svg {
+    border-radius: 10px;
+  }
+
+.container {
+    overflow: hidden;
+  }
+
+
+div::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; /* sets the color of the scrollbar track */
+  }
+
+
+div::-webkit-scrollbar-thumb {
+    background-color: rgba(227,228,230,255);
+    border-radius: 10px; /* sets the color of the scrollbar thumb */
+  }
+
+
+.Select-control {
+    background-color: #253346 !important;
+    color:white;
+    font-family: sans-serif
+  }
+  
+.Select-menu-outer {
+    background-color: rgb(233, 40, 40);
+    color: black;
+    font-family: sans-serif
+}
+
+.Select-value-label {
+    color: white !important;
+    font-family: sans-serif
+}
