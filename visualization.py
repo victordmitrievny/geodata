@@ -391,13 +391,13 @@ def update_output_value(input_value):
   #Colors for parameters
   color_palette =    {#Density is in a separate "if"
                       'Population':          [[0, 'rgb(255,255,255)'],[0.50, 'rgba(102,252,241,255)'],[1, 'rgb(5, 250, 234)']],
-                      'Area':                [[0, '#ffffff'],[1, '#CFD0FF']],
-                      'Water %':             [[0, '#ffffff'],[1, '#59B9FE']],
+                      'Area':                [[0, '#ffffff'],[1, '#9494FF']],
+                      'Water %':             [[0, '#ffffff'],[0.25, '#59B9FE'],[1, '#29B9FE']],
                       'Top Traded Currency': [[0, '#ffffff'],[1, '#50E6B5']],
-                      'GDP Total':           [[0, '#ffffff'],[1, '#D1FFE4']],
-                      'GDP Per Capita':      [[0, '#ffffff'],[1, '#65FCF2']],
-                      'HDI':                 [[0, '#ffffff'],[1, '#50CBE6']],
-                      'Gini':                [[0, '#ffffff'],[1, '#CFD0FF']],
+                      'GDP Total':           [[0, '#ffffff'],[0.1,'#FFEADB'],[0.6, '#B5F5DB'],[1, '#52F5DB']],
+                      'GDP Per Capita':      [[0, '#ffffff'],[0.08,'#2EE5F2'],[1, '#0036F2']],
+                      'HDI':                 [[0, '#E6383E'],[1, '#50CBE6']],
+                      'Gini':                [[0, '#ffffff'],[0.6,'#FFE303'],[1, '#FF1703']],
                       'Christianity':        [[0, '#ffffff'],[1, '#65FCF2']],
                       'Islam':               [[0, '#ffffff'],[1, '#50CBE6']],
                       'Judaism':             [[0, '#ffffff'],[1, '#CFD0FF']],
@@ -417,7 +417,7 @@ def update_output_value(input_value):
                     df,
                     locations = 'ISO3',
                     color = input_value,
-                    color_continuous_scale=[[0, 'rgb(255,255,255)'],[0.50, 'rgba(102,252,241,255)'],[1, 'rgb(5, 250, 234)']],
+                    color_continuous_scale=[[0, '#ffffff'], [0.40,'#6BCBE6'],[1, '#00ABE6']],
                     )
     map1.update_layout(coloraxis=dict(cmin=0, cmax=800))
 
@@ -427,6 +427,7 @@ def update_output_value(input_value):
                      'Christianity', 'Islam', 'Judaism', 'Hinduism', 'Buddhism']:
       map1 = px.choropleth(df, locations = 'ISO3', color = input_value,
                       color_continuous_scale = color_palette[input_value])
+          
 
   #Update layout
   map1.update_layout(
@@ -438,6 +439,7 @@ def update_output_value(input_value):
       title_font_color="white",
       tickfont_color="white")
   )
+  
 
 
 
