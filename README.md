@@ -2,7 +2,7 @@
                                 https://geodata-project.herokuapp.com/ 
                 
       
-**Description and Methodology:**
+_**Description:**_
 
 Geodata project collects, stores, formats and visualizes aggregated data on 195 world countries. It allows users to click on the countries to view general country information, view the data on the world map, chart it by 14 different metrics, and explore it in a table. 
 
@@ -15,16 +15,15 @@ Most of the code is written in Python, and the following libraries are used for 
 
 Other technologies used are CSS (minimal), the data is stored on Mysql Server on Heroku and the project is deployed on Heroku
 
-**Summary:** <br>
+_**Files Summary:**_
 
-Parsing_wikipedia.py - Parsing the Wikipedia data <br>
-Parsing_iso.py - Parsing iban and doing additional formatting <br>
-Visualization.py - import previous data and visualize with Dash <br>
-Scheduler.py - schedules the programs above to restart every 24 hours <br>
+-Parsing_wikipedia.py - Parsing the Wikipedia data <br>
+-Parsing_iso.py - Parsing iban and doing additional formatting <br>
+-Visualization.py - import previous data and visualize with Dash <br>
+-Scheduler.py - schedules the programs above to restart every 24 hours <br>
+-Assets folder contains logo and css custom styles <br>
 
-Assets folder contains logo and css custom styles <br>
-
-**Methodology Breakdown**
+_**Methodology Breakdown:**_
 
 1. Using requests library and beautifulsoup, I Iterate through links to individual country pages on Wikipedia from the Wikipedia’s countries list:
 
