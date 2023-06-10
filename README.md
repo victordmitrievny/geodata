@@ -23,7 +23,10 @@ _**Files Summary:**_
 -Scheduler.py - schedules the programs above to restart every 24 hours <br>
 -Assets folder contains logo and css custom styles <br>
 
-To start the program, **Scheduler.py** needs to be launched
+To start the program:
+
+1. pip install requirements.txt
+2. Launch **Scheduler.py** 
 
 _**Methodology Breakdown:**_
 
