@@ -27,7 +27,7 @@ _**Files Summary:**_
 
 To start the program:
 
-1. pip install requirements.txt
+1. Pip install requirements.txt
 2. Launch **Scheduler.py** 
 
 _**Methodology Breakdown:**_
