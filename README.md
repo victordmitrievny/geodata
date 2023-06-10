@@ -23,6 +23,8 @@ _**Files Summary:**_
 -Scheduler.py - schedules the programs above to restart every 24 hours <br>
 -Assets folder contains logo and css custom styles <br>
 
+To start the program, **Scheduler.py** needs to be launched
+
 _**Methodology Breakdown:**_
 
 1. Using requests library and beautifulsoup, I Iterate through links to individual country pages on Wikipedia from the Wikipedia’s countries list:
