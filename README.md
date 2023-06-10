@@ -1,5 +1,7 @@
-                                THE PROJECT IS DEPLOYED ONLINE AT: 
-                                https://geodata-project.herokuapp.com/ 
+<p align="center">
+     THE PROJECT IS DEPLOYED ONLINE AT:  <br>
+   https://geodata-project.herokuapp.com/ 
+</p>
                 
       
 _**Description:**_
