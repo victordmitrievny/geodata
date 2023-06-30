@@ -6,7 +6,7 @@
       
 _**Description:**_
 
-Geodata project collects, stores, formats and visualizes aggregated data on 195 world countries. It allows users to click on the countries to view general country information, view the data on the world map, chart it by 14 different metrics, and explore it in a table. 
+Geodata project collects, stores, formats and visualizes aggregated data on 195 world countries. It allows users to click on the countries to view general country information, view the data on the world map, chart it by 14 different metrics, and explore it in a datatable. 
 
 Most of the code is written in Python, and the following libraries are used for the project: <br>
 -Beautifulsoup <br>
